@@ -23,8 +23,9 @@ export default function MobileMenu() {
           <Link href="/about" onClick={() => setIsOpen(false)} className="text-white hover:text-brand-light transition">About</Link>
           <Link href="/services" onClick={() => setIsOpen(false)} className="text-white hover:text-brand-light transition">Services</Link>
           <Link href="/team" onClick={() => setIsOpen(false)} className="text-white hover:text-brand-light transition">Team</Link>
+          <Link href="/contact" onClick={() => setIsOpen(false)} className="text-white hover:text-brand-light transition">Contact</Link>
           <Link href="/experiment" onClick={() => setIsOpen(false)} className="text-amber-400 hover:text-amber-300 font-bold transition">Experiment</Link>
-          <Link href="/contact" onClick={() => setIsOpen(false)} className="bg-brand text-white px-8 py-3 mt-4 rounded-full font-semibold hover:bg-emerald-700 transition shadow-lg">Contact</Link>
+          <Link href="/mvp" onClick={() => setIsOpen(false)} className="bg-brand text-white px-8 py-3 mt-4 rounded-full font-semibold hover:bg-emerald-700 transition shadow-lg">Mulai</Link>
         </div>
       )}
     </div>

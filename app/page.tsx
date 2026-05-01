@@ -20,7 +20,7 @@ export default function Home() {
               Temukan destinasi, kuliner, penginapan, dan transportasi dalam satu halaman yang ringkas dan mudah dipakai.
             </p>
             <div className="flex flex-wrap gap-3 mb-3">
-              <Link href="/services" className="bg-brand text-white border border-brand px-6 py-3 rounded-md text-lg font-medium hover:bg-[#176252] hover:border-[#176252] transition">
+              <Link href="/mvp" className="bg-brand text-white border border-brand px-6 py-3 rounded-md text-lg font-medium hover:bg-[#176252] hover:border-[#176252] transition">
                 Mulai
               </Link>
               <Link href="/contact" className="border border-white text-white px-6 py-3 rounded-md text-lg font-medium hover:bg-white hover:text-black transition">
