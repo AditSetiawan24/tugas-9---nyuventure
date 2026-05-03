@@ -26,8 +26,8 @@
 - **Leaflet Routing Machine** : [https://www.liedman.net/leaflet-routing-machine/](https://www.liedman.net/leaflet-routing-machine/)
 - **OpenTripMap API** : [https://opentripmap.io/](https://opentripmap.io/)
 - **Wikipedia REST API** : [https://api.wikimedia.org/](https://api.wikimedia.org/)
-- **OpenStreetMap & Nominatim** (Geocoding & Peta Dasar) : [https://www.openstreetmap.org/](https://www.openstreetmap.org/)
-- **Lucide React** (Ikon UI Modern) : [https://lucide.dev/](https://lucide.dev/)
+- **OpenStreetMap & Nominatim** : [https://www.openstreetmap.org/](https://www.openstreetmap.org/)
+- **Lucide React** : [https://lucide.dev/](https://lucide.dev/)
 
 <h1 align="center">Kelompok 10</h1>
 <p align="center">

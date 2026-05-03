@@ -101,7 +101,7 @@ export default function MapNearYou() {
         { xid: '2', name: 'Baturraden', rate: 4.8, osm: '', wikidata: '', kinds: 'tourist_attraction', point: { lat: lat + 0.02, lon: lon - 0.01 } },
         { xid: '3', name: 'Telaga Sunyi', rate: 4.7, osm: '', wikidata: '', kinds: 'lakes,natural', point: { lat: lat - 0.01, lon: lon + 0.02 } },
       ]);
-      setError('Gagal menghubungi server peta. Menampilkan data contoh (mock data).');
+      setError('Gagal menghubungi server peta. Karena batas akses API yang terbatas.');
     } finally {
       setLoading(false);
     }

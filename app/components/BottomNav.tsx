@@ -17,11 +17,11 @@ export default function BottomNav() {
         <MapIcon className="w-6 h-6" />
         <span className="text-[10px] mt-1 font-medium">Dekat Anda</span>
       </Link>
-      <Link href="/mvp/wishlist" className={`flex flex-col items-center p-2 transition-colors ${pathname === '/mvp/wishlist' ? 'text-brand' : 'text-gray-500 hover:text-brand'}`}>
+      <Link href="#" className={`flex flex-col items-center p-2 transition-colors ${pathname === '/mvp/wishlist' ? 'text-brand' : 'text-gray-500 hover:text-brand'}`}>
         <Heart className="w-6 h-6" />
         <span className="text-[10px] mt-1 font-medium">Wishlist</span>
       </Link>
-      <Link href="/mvp/profile" className={`flex flex-col items-center p-2 transition-colors ${pathname === '/mvp/profile' ? 'text-brand' : 'text-gray-500 hover:text-brand'}`}>
+      <Link href="#" className={`flex flex-col items-center p-2 transition-colors ${pathname === '/mvp/profile' ? 'text-brand' : 'text-gray-500 hover:text-brand'}`}>
         <User className="w-6 h-6" />
         <span className="text-[10px] mt-1 font-medium">Profile</span>
       </Link>
