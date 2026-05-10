@@ -9,7 +9,7 @@ export default function AppLayoutWrapper({ children }: { children: React.ReactNo
   const pathname = usePathname();
   
 
-  const isAppView = pathname.startsWith('/mvp') || pathname.startsWith('/login');
+  const isAppView = pathname.startsWith('/mvp') || pathname.startsWith('/login') || pathname.startsWith('/admin');
 
   if (isAppView) {
     return (

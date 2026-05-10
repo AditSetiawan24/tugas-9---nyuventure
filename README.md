@@ -1,14 +1,32 @@
-# [Tugas 7 - Kelompok 10]
-## Live Preview
-[![Preview Website](https://image.thum.io/get/width/1200/noanimate/https://nyuventure.vercel.app/)](https://nyuventure.vercel.app/)
+# [Tugas 9 - Kelompok 10]
 
-[Buka Website](https://nyuventure.vercel.app/)
+## Penjelasan singat project
+Pada project mvp ini kami mengembangkan fitur utama yaitu "Dekat Anda", Fitur ini secara dinamis memberikan rekomendasi destinasi wisata berdasarkan deteksi lokasi pengguna saat ini. Fitur ini langsung melengkapi pengguna dengan informasi esensial serta panduan rute navigasi yang memudahkan wisatawan dalam mengeksplorasi secara praktis.
+
+## Live Preview
+[![Preview Website](https://image.thum.io/get/width/1200/noanimate/https://mvp-nyuventure.vercel.app)](https://mvp-nyuventure.vercel.app)
+
+[Buka Website](https://mvp-nyuventure.vercel.app/mvp)
 
 ## Screenshot
-![Landing Page desktop](https://i.ibb.co.com/1frpc5Mq/51525e64-d598-4fcb-a6cf-e47c394a4557.png)
-![Landing Page mobile](https://i.ibb.co.com/7xdqr00q/i-Phone-13-PRO-nyuventure-vercel-app.webp)
-![Landing Page mockup](https://i.ibb.co.com/hF27qvFG/mockup-1777122769446.png)
+![Landing Page desktop](https://i.ibb.co.com/3Yfp4sK4/ceb0dd12-3ea9-4432-bffe-925fa2934c51.png)
+![Landing Page mobile](https://i.ibb.co.com/CXPKPMG/i-Phone-14-390x1003.png)
+![Landing Page mockup](https://i.ibb.co.com/4wh27vMt/mockup-1777812200339.png)
 
+**Kumpulan SS lainya bisa di akses [disini](https://drive.google.com/drive/folders/1ZFgOVA9smzYu5obgS6i18EcPXLYcruiK?usp=sharing)**
+
+## Demo
+| email | password  |
+|-----|---|
+| test@gmail.com | password  |
+
+*_Bisa daftar akun baru jika belum terkena limit karena pakai free plan supabase_
+
+Untuk akses admin : [link](https://nyuventure.vercel.app/admin/dashboard)
+
+| email | password  |
+|-----|---|
+| admin@nyuventure.id | admin@nyuventure.id  |
 
 ## Anggota Kelompok
 - Adit Setiawan  
@@ -28,6 +46,7 @@
 - **Wikipedia REST API** : [https://api.wikimedia.org/](https://api.wikimedia.org/)
 - **OpenStreetMap & Nominatim** : [https://www.openstreetmap.org/](https://www.openstreetmap.org/)
 - **Lucide React** : [https://lucide.dev/](https://lucide.dev/)
+- **Zod** : [https://zod.dev/](https://zod.dev/)
 
 <h1 align="center">Kelompok 10</h1>
 <p align="center">

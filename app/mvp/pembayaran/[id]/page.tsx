@@ -1,20 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useActionState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { CheckCircle2, Loader2, ArrowLeft, Minus, Plus, Ticket as TicketIcon, MapIcon } from 'lucide-react';
 import Link from 'next/link';
-import { createClient } from '@/utils/supabase/client';
 import { saveTicketAction } from '@/app/actions/ticket';
 
 export default function PembayaranPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const supabase = createClient();
-  const [status, setStatus] = useState<'pending' | 'processing' | 'success'>('pending');
   const [placeId, setPlaceId] = useState<string>('');
-  const [ticketId, setTicketId] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(1);
+  
+  const [state, formAction, isPending] = useActionState(saveTicketAction, null);
   
   const placeName = searchParams.get('name') || 'Destinasi Wisata';
   const lat = searchParams.get('lat');
@@ -28,41 +26,6 @@ export default function PembayaranPage({ params }: { params: Promise<{ id: strin
     params.then((p) => setPlaceId(p.id));
   }, [params]);
 
-  const handlePayment = async () => {
-    setStatus('processing');
-    
-    try {
-
-      const result = await saveTicketAction({
-        placeId,
-        placeName,
-        amount: totalPayment,
-        quantity: quantity,
-      });
-
-      if (!result.success) {
-        if (result.error?.includes('login')) {
-          alert(result.error);
-        } else {
-          throw new Error(result.error);
-        }
-        setStatus('pending');
-        return;
-      }
-
-      if (result.ticketId) {
-        setTicketId(result.ticketId);
-      }
-      
-      setStatus('success');
-      
-    } catch (err) {
-      console.error(err);
-      alert('Gagal menyimpan tiket! Pastikan pengaturan database Anda sudah benar.');
-      setStatus('pending');
-    }
-  };
-
   const handleRute = () => {
     let routeUrl = `/mvp/rute/${placeId}?name=${encodeURIComponent(placeName)}`;
     if (lat && lon) {
@@ -72,8 +35,7 @@ export default function PembayaranPage({ params }: { params: Promise<{ id: strin
   };
 
   const handleETicket = () => {
-
-    const id = ticketId || placeId;
+    const id = state?.ticketId || placeId;
     let ticketUrl = `/mvp/tiket/${id}?name=${encodeURIComponent(placeName)}&qty=${quantity}&total=${totalPayment}`;
     if (lat && lon) {
       ticketUrl += `&lat=${lat}&lon=${lon}`;
@@ -91,68 +53,111 @@ export default function PembayaranPage({ params }: { params: Promise<{ id: strin
       </div>
 
       <div className="p-4 flex-1 flex flex-col">
-        <div className="bg-white rounded-2xl shadow-sm p-6 mb-4">
-          <h2 className="text-sm text-gray-500 mb-1">Detail Pemesanan</h2>
-          <p className="font-bold text-gray-800 text-lg mb-4">{placeName}</p>
-          
-          <div className="flex justify-between items-center py-3 border-t border-gray-100">
-            <span className="text-gray-600">Jumlah Tiket</span>
-            <div className="flex items-center gap-4 bg-gray-50 px-2 py-1 rounded-lg border border-gray-100">
-              <button 
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                disabled={status !== 'pending' || quantity <= 1}
-                className="w-8 h-8 flex items-center justify-center rounded-md bg-white shadow-sm border border-gray-200 text-gray-600 disabled:opacity-50"
-              >
-                <Minus className="w-4 h-4" />
-              </button>
-              <span className="font-bold text-gray-800 w-4 text-center">{quantity}</span>
-              <button 
-                onClick={() => setQuantity(quantity + 1)}
-                disabled={status !== 'pending'}
-                className="w-8 h-8 flex items-center justify-center rounded-md bg-white shadow-sm border border-gray-200 text-gray-600 disabled:opacity-50"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
+        {!state?.success ? (
+          <form action={formAction} className="flex-1 flex flex-col">
+            <input type="hidden" name="placeId" value={placeId} />
+            <input type="hidden" name="placeName" value={placeName} />
+            <input type="hidden" name="amount" value={totalPayment} />
+            <input type="hidden" name="quantity" value={quantity} />
+
+            <div className="bg-white rounded-2xl shadow-sm p-6 mb-4">
+              <h2 className="text-sm text-gray-500 mb-4">Informasi Pemesan</h2>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Nama Lengkap</label>
+                  <input type="text" name="customerName" defaultValue={state?.data?.customerName || ''} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition" placeholder="Nama Lengkap" />
+                  {state?.errors?.customerName && (
+                    <p className="text-red-500 text-sm mt-1">{state.errors.customerName[0]}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+                  <input type="email" name="customerEmail" defaultValue={state?.data?.customerEmail || ''} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition" placeholder="email@example.com" />
+                  {state?.errors?.customerEmail && (
+                    <p className="text-red-500 text-sm mt-1">{state.errors.customerEmail[0]}</p>
+                  )}
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-1">Nomor WhatsApp / Telepon</label>
+                  <input type="tel" name="customerPhone" defaultValue={state?.data?.customerPhone || ''} className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-brand transition" placeholder="08123456789" />
+                  {state?.errors?.customerPhone && (
+                    <p className="text-red-500 text-sm mt-1">{state.errors.customerPhone[0]}</p>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
 
-          <div className="flex justify-between items-center py-3 border-t border-gray-100">
-            <span className="text-gray-600">Tiket Masuk ({quantity}x)</span>
-            <span className="font-semibold">Rp {(ticketPrice * quantity).toLocaleString('id-ID')}</span>
-          </div>
-          
-          <div className="flex justify-between items-center py-3 border-b border-gray-100">
-            <span className="text-gray-600">Biaya Layanan</span>
-            <span className="font-semibold">Rp {serviceFee.toLocaleString('id-ID')}</span>
-          </div>
+            <div className="bg-white rounded-2xl shadow-sm p-6 mb-4">
+              <h2 className="text-sm text-gray-500 mb-1">Detail Pemesanan</h2>
+              <p className="font-bold text-gray-800 text-lg mb-4">{placeName}</p>
+              
+              <div className="flex justify-between items-center py-3 border-t border-gray-100">
+                <span className="text-gray-600">Jumlah Tiket</span>
+                <div className="flex items-center gap-4 bg-gray-50 px-2 py-1 rounded-lg border border-gray-100">
+                  <button 
+                    type="button"
+                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                    disabled={isPending || quantity <= 1}
+                    className="w-8 h-8 flex items-center justify-center rounded-md bg-white shadow-sm border border-gray-200 text-gray-600 disabled:opacity-50"
+                  >
+                    <Minus className="w-4 h-4" />
+                  </button>
+                  <span className="font-bold text-gray-800 w-4 text-center">{quantity}</span>
+                  <button 
+                    type="button"
+                    onClick={() => setQuantity(quantity + 1)}
+                    disabled={isPending}
+                    className="w-8 h-8 flex items-center justify-center rounded-md bg-white shadow-sm border border-gray-200 text-gray-600 disabled:opacity-50"
+                  >
+                    <Plus className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
 
-          <div className="flex justify-between items-center py-4">
-            <span className="font-bold text-gray-800">Total Pembayaran</span>
-            <span className="font-bold text-brand text-xl">Rp {totalPayment.toLocaleString('id-ID')}</span>
-          </div>
-        </div>
+              <div className="flex justify-between items-center py-3 border-t border-gray-100">
+                <span className="text-gray-600">Tiket Masuk ({quantity}x)</span>
+                <span className="font-semibold">Rp {(ticketPrice * quantity).toLocaleString('id-ID')}</span>
+              </div>
+              
+              <div className="flex justify-between items-center py-3 border-b border-gray-100">
+                <span className="text-gray-600">Biaya Layanan</span>
+                <span className="font-semibold">Rp {serviceFee.toLocaleString('id-ID')}</span>
+              </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-6 text-center mt-auto md:mt-0">
-          {status === 'pending' && (
-            <>
+              <div className="flex justify-between items-center py-4">
+                <span className="font-bold text-gray-800">Total Pembayaran</span>
+                <span className="font-bold text-brand text-xl">Rp {totalPayment.toLocaleString('id-ID')}</span>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-2xl shadow-sm p-6 text-center mt-auto md:mt-0">
+              {state?.success === false && !state?.errors && (
+                <div className="bg-red-100 text-red-700 p-3 rounded-lg text-sm font-semibold text-center mb-4">
+                  {state.message}
+                </div>
+              )}
+              
               <p className="text-gray-600 mb-6">Metode Pembayaran: <strong>QRIS (Mock)</strong></p>
               <button 
-                onClick={handlePayment}
-                className="w-full bg-brand text-white font-bold py-4 rounded-xl hover:bg-emerald-700 transition"
+                type="submit"
+                disabled={isPending}
+                className={`w-full font-bold py-4 rounded-xl transition flex justify-center items-center gap-2 ${
+                  isPending ? 'bg-gray-400 text-white cursor-not-allowed' : 'bg-brand text-white hover:bg-emerald-700'
+                }`}
               >
-                Bayar Sekarang
+                {isPending ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" /> Memproses...
+                  </>
+                ) : (
+                  'Bayar Sekarang'
+                )}
               </button>
-            </>
-          )}
-
-          {status === 'processing' && (
-            <div className="flex flex-col items-center justify-center py-8">
-              <Loader2 className="w-12 h-12 text-brand animate-spin mb-4" />
-              <p className="font-semibold text-gray-700">Memproses pembayaran...</p>
             </div>
-          )}
-
-          {status === 'success' && (
+          </form>
+        ) : (
+          <div className="bg-white rounded-2xl shadow-sm p-6 text-center mt-auto md:mt-0 flex-1 flex flex-col justify-center">
             <div className="flex flex-col items-center justify-center py-4 animate-in zoom-in duration-300">
               <CheckCircle2 className="w-16 h-16 text-emerald-500 mb-4" />
               <h3 className="font-bold text-xl text-gray-800 mb-6">Pembayaran Berhasil!</h3>
@@ -174,8 +179,8 @@ export default function PembayaranPage({ params }: { params: Promise<{ id: strin
                 </button>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -19,8 +19,19 @@ export async function login(formData: FormData) {
     redirect(`/login?message=${encodeURIComponent(error.message)}`)
   }
 
-  revalidatePath('/mvp', 'layout')
-  redirect('/mvp')
+  const { data: adminData } = await supabase
+    .from('admins')
+    .select('email')
+    .eq('email', data.email)
+    .single()
+
+  if (adminData) {
+    revalidatePath('/admin', 'layout')
+    redirect('/admin/dashboard')
+  } else {
+    revalidatePath('/mvp', 'layout')
+    redirect('/mvp')
+  }
 }
 
 export async function signup(formData: FormData) {
@@ -37,6 +48,17 @@ export async function signup(formData: FormData) {
     redirect(`/login?message=${encodeURIComponent(error.message)}`)
   }
 
-  revalidatePath('/mvp', 'layout')
-  redirect('/mvp')
+  const { data: adminData } = await supabase
+    .from('admins')
+    .select('email')
+    .eq('email', data.email)
+    .single()
+
+  if (adminData) {
+    revalidatePath('/admin', 'layout')
+    redirect('/admin/dashboard')
+  } else {
+    revalidatePath('/mvp', 'layout')
+    redirect('/mvp')
+  }
 }

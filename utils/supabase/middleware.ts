@@ -31,15 +31,33 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
+  let isAdmin = false;
+  if (user?.email) {
+    const { data: adminData } = await supabase.from('admins').select('email').eq('email', user.email).single();
+    isAdmin = !!adminData;
+  }
+
   if (request.nextUrl.pathname.startsWith('/mvp') && !user) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     return NextResponse.redirect(url)
   }
 
+  if (request.nextUrl.pathname.startsWith('/admin')) {
+    if (!user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    } else if (!isAdmin) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/mvp'
+      return NextResponse.redirect(url)
+    }
+  }
+
   if (request.nextUrl.pathname.startsWith('/login') && user) {
     const url = request.nextUrl.clone()
-    url.pathname = '/mvp'
+    url.pathname = isAdmin ? '/admin/dashboard' : '/mvp'
     return NextResponse.redirect(url)
   }
 
