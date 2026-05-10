@@ -4,9 +4,9 @@
 Pada project mvp ini kami mengembangkan fitur utama yaitu "Dekat Anda", Fitur ini secara dinamis memberikan rekomendasi destinasi wisata berdasarkan deteksi lokasi pengguna saat ini. Fitur ini langsung melengkapi pengguna dengan informasi esensial serta panduan rute navigasi yang memudahkan wisatawan dalam mengeksplorasi secara praktis.
 
 ## Live Preview
-[![Preview Website](https://image.thum.io/get/width/1200/noanimate/https://mvp-nyuventure.vercel.app)](https://mvp-nyuventure.vercel.app)
+[![Preview Website](https://image.thum.io/get/width/1200/noanimate/https://new-nyuventure.vercel.app/admin/dashboard)](https://new-nyuventure.vercel.app/admin/dashboard)
 
-[Buka Website](https://mvp-nyuventure.vercel.app/mvp)
+[Buka Website](https://new-nyuventure.vercel.app/admin/dashboard)
 
 ## Screenshot
 ![Landing Page desktop](https://i.ibb.co.com/3Yfp4sK4/ceb0dd12-3ea9-4432-bffe-925fa2934c51.png)
@@ -22,7 +22,7 @@ Pada project mvp ini kami mengembangkan fitur utama yaitu "Dekat Anda", Fitur in
 
 *_Bisa daftar akun baru jika belum terkena limit karena pakai free plan supabase_
 
-Untuk akses admin : [link](https://nyuventure.vercel.app/admin/dashboard)
+Untuk akses admin : [link](https://new-nyuventure.vercel.app/admin/dashboard)
 
 | email | password  |
 |-----|---|
