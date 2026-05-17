@@ -1,5 +1,7 @@
 # [Tugas 9 - Kelompok 10]
 
+Tugas 10 [Klik Disini](https://github.com/AditSetiawan24/nyuventure.git)
+
 ## Penjelasan singat project
 Pada project mvp ini kami mengembangkan fitur utama yaitu "Dekat Anda", Fitur ini secara dinamis memberikan rekomendasi destinasi wisata berdasarkan deteksi lokasi pengguna saat ini. Fitur ini langsung melengkapi pengguna dengan informasi esensial serta panduan rute navigasi yang memudahkan wisatawan dalam mengeksplorasi secara praktis.
 
